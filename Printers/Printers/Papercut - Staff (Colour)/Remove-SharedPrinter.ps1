@@ -1,0 +1,1 @@
+Remove-Printer -Name "\\ps1\Papercut Staff - Colour"

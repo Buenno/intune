@@ -1,0 +1,1 @@
+Add-Printer -ConnectionName "\\ps1\Papercut Student - Colour"
