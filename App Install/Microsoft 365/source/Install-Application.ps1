@@ -95,5 +95,6 @@ Remove-StatusRegistryKey -Application $appName
 
 # Install application
 $i = Start-Process $installer -ArgumentList "$($installParams -join " ")" -PassThru -Wait
-Write-Host $i.ExitCode
-Add-StatusRegistryProperty -Application $appName -Operation $installOp -Status "0"
+if ($i.ExitCode -eq 0){
+    Add-StatusRegistryProperty -Application $appName -Operation $installOp -Status "0"
+}
