@@ -1,8 +1,9 @@
 $ErrorActionPreference = 'Stop'
 
-$binary = Get-ChildItem -Path "$PSScriptRoot\binary" -Filter *.exe
-$config = Get-ChildItem -Path "$PSScriptRoot\config" -Filter uninstall.xml
-$uninstaller = $binary.FullName
+$appName =      "Microsoft 365"
+$binary =       Get-ChildItem -Path "$PSScriptRoot\binary" -Filter *.exe
+$config =       Get-ChildItem -Path "$PSScriptRoot\config" -Filter uninstall.xml
+$uninstaller =  $binary.FullName
 
 $uninstallParams = @(
     "/configure $($config.FullName)"
