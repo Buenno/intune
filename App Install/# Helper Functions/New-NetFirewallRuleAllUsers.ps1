@@ -98,8 +98,13 @@ function New-NetFirewallRuleAllUsers {
             # Apprend the users name to the DisplayName
             $username = ($user.ProfileImagePath -split '\\')[2]
             $params["DisplayName"] = "$($params.DisplayName) - for $username"
+            
             # Add the new firewall rule
-            New-NetFirewallRule @params
+            $existingRule = Get-NetFirewallRule -DisplayName $params["DisplayName"] -ErrorAction SilentlyContinue
+
+            if (!($existingRule)){
+                New-NetFirewallRule @params
+            }
         }
     }
 }
