@@ -212,7 +212,7 @@ $installOp =    "Installation"
 $certsOp =      "Certificates Installed"
 $ideFWOp =      "IDE Firewall rules Created"   
 $mdnsFWOp =     "mDNS Firewall rules Created"
-$scriptOP -     "Script Copied to Local Storage"
+$scriptOP =     "Script Copied to Local Storage"
 $sTaskOp =      "Scheduled Task Created"
 
 Remove-StatusRegistryKey -Application $appName
@@ -263,8 +263,7 @@ if ($existingIDERule){
     $existingIDERule | Remove-NetFirewallRule
 }
 
-New-NetFirewallRule @ideRule -Protocol UDP
-New-NetFirewallRule @ideRule -Protocol TCP
+New-NetFirewallRule @ideRule
 Add-StatusRegistryProperty -Application $appName -Operation $ideFWOp -Status 0
 
 # Add mDNS firewall rule for all users
@@ -276,8 +275,7 @@ $mDNSRule = @{
     Program = "appdata\local\arduino15\packages\builtin\tools\mdns-discovery\1.0.9\mdns-discovery.exe"
     Action = "Block"
 }
-New-NetFirewallRuleAllUsers @mDNSRule -Protocol UDP
-New-NetFirewallRuleAllUsers @mDNSRule -Protocol TCP
+New-NetFirewallRuleAllUsers @mDNSRule
 Add-StatusRegistryProperty -Application $appName -Operation $mdnsFWOp -Status 0
 
 # Copy script to local storage
@@ -286,6 +284,7 @@ if (!(Test-Path -Path $scriptDest)){
     New-Item -Path $scriptDest -ItemType Directory -Force
 }
 Copy-Item -Path $script.FullName -Destination $scriptDest -Force
+Add-StatusRegistryProperty -Application $appName -Operation $scriptOP -Status 0
 
 # Add scheduled task to launch script on user logon
 $taskName = "Arduino mDNS Discovery"
@@ -299,7 +298,7 @@ if (Get-ScheduledTask -TaskName $taskName -ErrorAction SilentlyContinue){
 
 $actionParams = @{
     Execute = "powershell.exe"
-    Argument = "-NoProfile -WindowStyle Hidden -ExecutionPolicy Bypass -File $($script.FullName)"
+    Argument = "-ExecutionPolicy Bypass -File $scriptDest\$($script.Name)"
 }
 
 $settingsParams = @{
