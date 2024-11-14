@@ -191,30 +191,107 @@ function New-NetFirewallRuleAllUsers {
     }
 }
 
+function Copy-ItemAllUsers {
+    <#
+    .SYNOPSIS
+    Copies a file/folder to all users.
+
+    .DESCRIPTION
+    Copies a file/folder to all user profile folders on the device. Works with Default, AD, and Entra users. 
+    
+    .PARAMETER Path
+    The path to the source file/folder. 
+
+    .PARAMETER Destination
+    The destination you would like to copy the file/folder to, relative to the user profile path.
+
+    .PARAMETER IncludeDefault
+    Copies file/folder to Default user profile.
+    
+    .OUTPUTS
+    None
+
+    .EXAMPLE
+    Copy-ItemToAllUsers -Path \MyConfigFiles -Destination Appdata\Roaming\ -IncludeDefault
+    #>
+    [CmdletBinding()]
+    param(
+        [Parameter(Mandatory = $true)]
+        [string]$Path,
+        [Parameter(Mandatory = $true)]
+        [string]$Destination,
+        [switch]$IncludeDefault
+    )
+    BEGIN {
+        $ErrorActionPreference = [System.Management.Automation.ActionPreference]::Stop
+        
+        # Regex for account type, for matching on later
+        $sidToMatch = @(
+            "S-1-5-21-\d+-\d+\-\d+\-\d+$" # AD user
+            "S-1-12-1-\d+-\d+\-\d+\-\d+$" # Entra user
+        )
+        $sidRegex = $sidToMatch -join "|"
+
+        # Init an array list for storing profile data
+        [System.Collections.ArrayList]$profileList = @()
+
+        # Get profile data
+        $profiles = Get-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\ProfileList\*" | Where-Object {$_.PSChildName -match $sidRegex}
+        foreach ($profile in $profiles){
+            $user = [pscustomobject]@{
+                SID = $profile.PSChildName
+                ProfilePath = "$($profile.ProfileImagePath)"
+            }
+            $profileList.Add($user) | Out-Null
+        }
+
+        # Add the default user 
+        if ($IncludeDefault){
+            $defaultUser = [pscustomobject]@{
+                SID = "defaultuser"
+                ProfilePath = "$env:SystemDrive\Users\Default"
+            }
+            $profileList.Add($defaultUser) | Out-Null
+        }
+    }
+    PROCESS {
+        # Trim any leading backslash from destination string
+        $Destination = $Destination.TrimStart("\")
+        foreach ($profile in $profileList){
+            # Create destination directory if required, then copy data from source
+            if (!(Test-Path "$($profile.ProfilePath)\$Destination")){
+                New-Item -Path "$($profile.ProfilePath)\$Destination" -ItemType Directory -Force | Out-Null
+            }
+            Copy-Item -Path $Path -Destination "$($profile.ProfilePath)\$Destination" -Recurse -Force | Out-Null
+        }
+    }
+}
+
+# Application details
 $appName =      "Arduino IDE"
 $installer =    "msiexec.exe"
+#$localDir =     "$env:PROGRAMDATA\Arduino"
 
-# source files
+# Source files
 $binary =       Get-ChildItem -Path "$PSScriptRoot\binary" -Filter *.msi
 $transform =    Get-ChildItem -Path "$PSScriptRoot\binary" -Filter *.mst
 $script =       Get-ChildItem -Path "$PSScriptRoot\scripts" -Filter *.ps1
 $certificates = Get-ChildItem -Path "$PSScriptRoot\config\certificates" -Filter *.cer
-
-$installParams = @(
-    "/i $($binary.FullName)",
-    "/qn",
-    "ALLUSERS=1",
-    "TRANSFORMS=$($transform.FullName)"
-)
+$drivers =      Get-ChildItem -Path "$PSScriptRoot\drivers" -Filter *.inf -Recurse
+#$cliConfig =    Get-ChildItem -Path "$PSScriptRoot\config\" -Filter *.yaml
 
 # Operations to log in the registry
 $installOp =    "Installation"
+#$confOp =       "Yaml Configuration Copied"
+#$coreOp =       "AVR Core Installed"
+$driverOp =     "Drivers Installed"
 $certsOp =      "Certificates Installed"
 $ideFWOp =      "IDE Firewall rules Created"   
 $mdnsFWOp =     "mDNS Firewall rules Created"
 $scriptOP =     "Script Copied to Local Storage"
 $sTaskOp =      "Scheduled Task Created"
 
+# Remove existing status registry key
 Remove-StatusRegistryKey -Application $appName
 
 # Install publisher certs
@@ -242,9 +319,77 @@ foreach ($cert in $certificates){
 Add-StatusRegistryProperty -Application $appName -Operation $certsOp -Status 0
 
 # Install app
+$installParams = @(
+    "/i $($binary.FullName)",
+    "/qn",
+    "ALLUSERS=1",
+    "TRANSFORMS=$($transform.FullName)"
+)
+
 $i = Start-Process $installer -ArgumentList "$($installParams -join " ")" -PassThru -Wait
 if ($i.ExitCode -eq 0){
     Add-StatusRegistryProperty -Application $appName -Operation $installOp -Status 0
+}
+
+<#
+# Create app directories 
+$createDirs = @(
+    "data",
+    "libraries"
+)
+
+if (Test-Path -Path $localDir){
+    Remove-Item -Path $localDir -Recurse -Force
+}
+
+foreach ($dir in $createDirs){
+    New-Item -Path "$localDir\$dir" -ItemType Directory -Force 
+}
+
+# Set the arduino-cli config file paths and write to local storage
+$cliData = Get-Content -Path $cliConfig.FullName
+$cliData = $cliData.Replace("{0}", "$localDir")
+$cliData | Out-File -FilePath "$localdir\$($cliConfig.Name)" -Encoding utf8 -Force
+
+# Copy arduino-cli configuration file to all user inc. default
+Copy-ItemAllUsers -Path "$localdir\$($cliConfig.Name)" -Destination ".arduinoIDE" -IncludeDefault
+Add-StatusRegistryProperty -Application $appName -Operation $confOp -Status 0
+
+# Install Arduino AVR core via CLI
+$coreParams = @(
+    "--config-file ""$localDir\$($cliConfig.Name)""",
+    "core install arduino:avr"
+)
+
+$cliBinary =    "$env:ProgramFiles\arduino-ide\resources\app\lib\backend\resources\arduino-cli.exe"
+
+
+$c = Start-Process $cliBinary -ArgumentList "$($coreParams -join " ")" -PassThru -Wait
+if ($c.ExitCode -eq 0){
+    Add-StatusRegistryProperty -Application $appName -Operation $coreOp -Status 0
+}
+
+$driverBinary =  Get-ChildItem -Path "$localDir\data\packages\arduino\hardware\avr\1.8.6\drivers\" -Filter *64.exe
+#>
+
+# Install driver packages
+$driverCount = 0
+
+foreach ($driver in $drivers){
+    $driverParams = @(
+        "/add-driver",
+        """$($driver.FullName)""",
+        "/install"
+    )
+    $d = Start-Process "C:\Windows\System32\pnputil.exe" -ArgumentList "$($driverParams -join " ")" -PassThru -Wait
+    if ($d.ExitCode -eq 0){
+        $driversCount++
+    }
+}
+#C:\Windows\sysnative\
+
+if ($driverCount -eq $drivers.Count){
+    Add-StatusRegistryProperty -Application $appName -Operation $driverOp -Status 0
 }
 
 # Check if IDE firewall rule has been added, if not, add it
@@ -265,6 +410,27 @@ if ($existingIDERule){
 
 New-NetFirewallRule @ideRule
 Add-StatusRegistryProperty -Application $appName -Operation $ideFWOp -Status 0
+
+<#
+#Check if mDNS firewall rule has been added, if not, add it
+$mDNSRule = @{
+    DisplayName = "Arduino mDNS"
+    Description = "Arduino mDNS"
+    Direction = "Inbound"
+    Profile = "Public"
+    Program = "$localDir\data\packages\builtin\tools\mdns-discovery\1.0.9\mdns-discovery.exe"
+    Action = "Block"
+}
+
+$existingmDNSRule = Get-NetFirewallRule -DisplayName $mDNSRule.DisplayName -ErrorAction SilentlyContinue
+
+if ($existingmDNSRule){
+    $existingmDNSRule | Remove-NetFirewallRule
+}
+
+New-NetFirewallRule @mDNSRule
+Add-StatusRegistryProperty -Application $appName -Operation $mdnsFWOp -Status 0
+#>
 
 # Add mDNS firewall rule for all users
 $mDNSRule = @{
