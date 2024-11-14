@@ -43,5 +43,7 @@ function Remove-StatusRegistryKey {
 } 
 
 # Uninstall application
-Start-Process $uninstaller -ArgumentList "$($uninstallParams -join " ")" -PassThru -Wait
-Remove-StatusRegistryKey -Application $appName
+$u = Start-Process $uninstaller -ArgumentList "$($uninstallParams -join " ")" -PassThru -Wait
+if ($u.ExitCode -eq 0){
+    Remove-StatusRegistryKey -Application $appName
+}
