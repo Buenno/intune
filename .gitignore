@@ -12,3 +12,7 @@
 *.cer
 *.dll
 *.cat
+*.lib
+*.sys
+*.inf
+*.h
