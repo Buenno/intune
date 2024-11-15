@@ -286,8 +286,8 @@ $installOp =    "Installation"
 #$coreOp =       "AVR Core Installed"
 $driverOp =     "Drivers Installed"
 $certsOp =      "Certificates Installed"
-$ideFWOp =      "IDE Firewall rules Created"   
-$mdnsFWOp =     "mDNS Firewall rules Created"
+$ideFWOp =      "IDE Firewall Rules Created"   
+$mdnsFWOp =     "mDNS Firewall Rules Created"
 $scriptOP =     "Script Copied to Local Storage"
 $sTaskOp =      "Scheduled Task Created"
 
@@ -378,7 +378,7 @@ $driverCount = 0
 foreach ($driver in $drivers){
     $driverParams = @(
         "/add-driver",
-        """$($driver.FullName)""",
+        "`"$($driver.FullName)`"",
         "/install"
     )
     $d = Start-Process "C:\Windows\System32\pnputil.exe" -ArgumentList "$($driverParams -join " ")" -PassThru -Wait
@@ -393,6 +393,12 @@ if ($driverCount -eq $drivers.Count){
 }
 
 # Check if IDE firewall rule has been added, if not, add it
+$existingIDERule = Get-NetFirewallRule -DisplayName $ideRule.DisplayName -ErrorAction SilentlyContinue
+
+if ($existingIDERule){
+    $existingIDERule | Remove-NetFirewallRule
+}
+
 $ideRule = @{
     DisplayName = "Arduino IDE"
     Description = "Arduino IDE"
@@ -400,12 +406,6 @@ $ideRule = @{
     Profile = "Public"
     Program = "C:\program files\arduino-ide\arduino ide.exe"
     Action = "Block"
-}
-
-$existingIDERule = Get-NetFirewallRule -DisplayName $ideRule.DisplayName -ErrorAction SilentlyContinue
-
-if ($existingIDERule){
-    $existingIDERule | Remove-NetFirewallRule
 }
 
 New-NetFirewallRule @ideRule
