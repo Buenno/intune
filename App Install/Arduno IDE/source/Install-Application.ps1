@@ -460,7 +460,7 @@ $taskPath = "Intune\Applications"
 
 # Check if a task with a matching name exists, if so, remove it
 if (Get-ScheduledTask -TaskName $taskName -ErrorAction SilentlyContinue){
-    Unregister-ScheduledTask -TaskName $taskName 
+    Unregister-ScheduledTask -TaskName $taskName -Confirm:$false
 }
 
 $actionParams = @{
