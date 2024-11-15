@@ -290,6 +290,7 @@ $ideFWOp =      "IDE Firewall Rules Created"
 $mdnsFWOp =     "mDNS Firewall Rules Created"
 $scriptOP =     "Script Copied to Local Storage"
 $sTaskOp =      "Scheduled Task Created"
+$eventOp =      "Task Scheduler Event Log Enabled"
 
 # Remove existing status registry key
 Remove-StatusRegistryKey -Application $appName
@@ -383,7 +384,7 @@ foreach ($driver in $drivers){
     )
     $d = Start-Process "C:\Windows\System32\pnputil.exe" -ArgumentList "$($driverParams -join " ")" -PassThru -Wait
     if ($d.ExitCode -eq 0){
-        $driversCount++
+        $driverCount++
     }
 }
 #C:\Windows\sysnative\
@@ -393,12 +394,6 @@ if ($driverCount -eq $drivers.Count){
 }
 
 # Check if IDE firewall rule has been added, if not, add it
-$existingIDERule = Get-NetFirewallRule -DisplayName $ideRule.DisplayName -ErrorAction SilentlyContinue
-
-if ($existingIDERule){
-    $existingIDERule | Remove-NetFirewallRule
-}
-
 $ideRule = @{
     DisplayName = "Arduino IDE"
     Description = "Arduino IDE"
@@ -406,6 +401,12 @@ $ideRule = @{
     Profile = "Public"
     Program = "C:\program files\arduino-ide\arduino ide.exe"
     Action = "Block"
+}
+
+$existingIDERule = Get-NetFirewallRule -DisplayName $ideRule.DisplayName -ErrorAction SilentlyContinue
+
+if ($existingIDERule){
+    $existingIDERule | Remove-NetFirewallRule
 }
 
 New-NetFirewallRule @ideRule
@@ -490,3 +491,12 @@ $taskParams = @{
 
 Register-ScheduledTask @taskParams -Force
 Add-StatusRegistryProperty -Application $appName -Operation $sTaskOp -Status 0
+
+# Enable task scheduler operational event log
+$logName = "Microsoft-Windows-TaskScheduler/Operational"
+$log = New-Object System.Diagnostics.Eventing.Reader.EventLogConfiguration $logName
+$log.IsEnabled=$true
+$log.MaximumSizeInBytes = 2105344
+$log.SaveChanges()
+
+Add-StatusRegistryProperty -Application $appName -Operation $eventOp -Status 0
