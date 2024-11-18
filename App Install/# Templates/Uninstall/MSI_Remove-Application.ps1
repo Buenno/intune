@@ -1,9 +1,10 @@
 $ErrorActionPreference = 'Stop'
 
-# Get uninstall string from registry 
+$appName = ""
 $installer = "msiexec.exe"
-$displayName = ""
-$uninstallReg = Get-ChildItem -Path HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall | Get-ItemProperty | Where-Object {$_.DisplayName -eq $displayName}
+
+# Get uninstall string from registry
+$uninstallReg = Get-ChildItem -Path HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall | Get-ItemProperty | Where-Object {$_.DisplayName -eq $appName}
 
 $uninstallParams = @(
     "/x",
@@ -12,4 +13,9 @@ $uninstallParams = @(
 )
 
 # Uninstall application
-Start-Process $installer -ArgumentList "$($uninstallParams -join " ")" -PassThru -Wait
+$u = Start-Process $installer -ArgumentList "$($uninstallParams -join " ")" -PassThru -Wait
+
+# Remove status registry key
+if ($u.ExitCode -eq 0){
+    Remove-StatusRegistryKey -Application $appName 
+}
