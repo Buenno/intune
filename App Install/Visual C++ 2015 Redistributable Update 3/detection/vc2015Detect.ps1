@@ -1,7 +1,8 @@
-$appName = "VC Redis 2015 - 14.0.24215"
-$statusReg =    "Registry::HKEY_LOCAL_MACHINE\SOFTWARE\Intune_Win32\$appname"
-$installOp =    "Installation"
-$uninstallName = "Microsoft Visual C++ 2015 x64 {0} - 14.0.24215"
+$appName =          "VC Redis 2015 - 14.0.24215"
+$statusReg =        "Registry::HKEY_LOCAL_MACHINE\SOFTWARE\Intune_Win32\$appname"
+$installOp =        "Installation"
+$uninstallName =    "Microsoft Visual C++ 2015 x64 {0} - 14.0.24215"
+
 $uninstallreg = @(
     "Minimum Runtime",
     "Additional Runtime"
