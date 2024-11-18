@@ -270,15 +270,15 @@ function Copy-ItemAllUsers {
 # Application details
 $appName =      "Arduino IDE"
 $installer =    "msiexec.exe"
-#$localDir =     "$env:PROGRAMDATA\Arduino"
+$localDir =     "$env:PROGRAMDATA\Arduino"
 
 # Source files
 $binary =       Get-ChildItem -Path "$PSScriptRoot\binary" -Filter *.msi
-$transform =    Get-ChildItem -Path "$PSScriptRoot\binary" -Filter *.mst
+#$transform =    Get-ChildItem -Path "$PSScriptRoot\binary" -Filter *.mst
 $script =       Get-ChildItem -Path "$PSScriptRoot\scripts" -Filter *.ps1
 $certificates = Get-ChildItem -Path "$PSScriptRoot\config\certificates" -Filter *.cer
-$drivers =      Get-ChildItem -Path "$PSScriptRoot\drivers" -Filter *.inf -Recurse
-#$cliConfig =    Get-ChildItem -Path "$PSScriptRoot\config\" -Filter *.yaml
+#$drivers =      Get-ChildItem -Path "$PSScriptRoot\drivers" -Filter *.inf -Recurse
+$cliConfig =    Get-ChildItem -Path "$PSScriptRoot\config\" -Filter *.yaml
 
 # Operations to log in the registry
 $installOp =    "Installation"
@@ -323,8 +323,8 @@ Add-StatusRegistryProperty -Application $appName -Operation $certsOp -Status 0
 $installParams = @(
     "/i $($binary.FullName)",
     "/qn",
-    "ALLUSERS=1",
-    "TRANSFORMS=$($transform.FullName)"
+    "ALLUSERS=1"#,
+    #"TRANSFORMS=$($transform.FullName)"
 )
 
 $i = Start-Process $installer -ArgumentList "$($installParams -join " ")" -PassThru -Wait
@@ -332,10 +332,6 @@ if ($i.ExitCode -eq 0){
     Add-StatusRegistryProperty -Application $appName -Operation $installOp -Status 0
 }
 
-# Install the AVR drivers 
-#arduino-cli core install --run-post-install arduino:avr --config-file somefile
-
-<#
 # Create app directories 
 $createDirs = @(
     "data",
