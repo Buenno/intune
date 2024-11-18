@@ -332,6 +332,9 @@ if ($i.ExitCode -eq 0){
     Add-StatusRegistryProperty -Application $appName -Operation $installOp -Status 0
 }
 
+# Install the AVR drivers 
+#arduino-cli core install --run-post-install arduino:avr --config-file somefile
+
 <#
 # Create app directories 
 $createDirs = @(
