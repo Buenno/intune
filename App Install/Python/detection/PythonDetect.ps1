@@ -18,9 +18,9 @@ else {
 
 if (($sRegCheck) -and ($uninstallReg.Count -eq '5')){
     Write-Host "$appName is installed."
-    #exit 0
+    exit 0
 }
 else {
     Write-Host "$appName is not installed."
-    #exit 1
+    exit 1
 }
