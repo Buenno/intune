@@ -80,17 +80,10 @@ function Remove-StatusRegistryKey {
     }
 } 
 
-$appName = "Papercut MF"
+$appName = "Papercut Print Deploy"
 $binary = Get-ChildItem -Path "$PSScriptRoot\binary" -Filter *.msi
 $installer = "msiexec.exe"
-
-$autorunPath =  "HKLM:\Software\Microsoft\Windows\CurrentVersion\Run"
-$autorunProp =  "PapercutMFClient"
-$fullPath =     Join-Path -Path $autorunPath -ChildPath $autorunProp
-$autorunVal =   "C:\Program Files\PaperCut MF Client\pc-client.exe --minimized --noquit --disable-toast-notifications --windowtitle ""Balance for {0}"""
-
 $installOp = "Installation"
-$autostartOp = "Autostart Enabled"
 
 $installParams = @(
     "/i $($binary.FullName)",
@@ -105,10 +98,5 @@ $i = Start-Process $installer -ArgumentList "$($installParams -join " ")" -PassT
 
 # Add status registry key
 if ($i.ExitCode -eq 0){
-    Add-StatusRegistryProperty -Application $appName -Operation $installOp -Status '0'
-    if (!(Test-Path -Path $fullPath)){
-        New-Item -Path $autorunPath -Name $autorunProp -Force
-    } 
-    New-ItemProperty -Path $autorunPath -Name $autorunProp -Value $autorunVal -Force | Out-Null
-    Add-StatusRegistryProperty -Application $appName -Operation $autostartOp -Status '0'
+    Add-StatusRegistryProperty -Application $appName -Operation $installOp -Status '0' 
 }

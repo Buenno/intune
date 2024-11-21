@@ -33,9 +33,8 @@ function Remove-StatusRegistryKey {
     }
 } 
 
-$appName = "Papercut MF"
+$appName = "Papercut Print Deploy"
 $installer = "msiexec.exe"
-$autoRunKey = "HKLM:\Software\Microsoft\Windows\CurrentVersion\Run\PapercutMFClient"
 
 # Get uninstall string from registry
 $uninstallReg = Get-ChildItem -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall" | Get-ItemProperty | Where-Object {$_.DisplayName -like "$appName*"}
@@ -51,7 +50,5 @@ $u = Start-Process $installer -ArgumentList "$($uninstallParams -join " ")" -Pas
 
 # Remove status registry key
 if ($u.ExitCode -eq 0){
-    # Remove autostart registry key
-    Remove-Item -Path $autoRunKey -Force -ErrorAction SilentlyContinue
     Remove-StatusRegistryKey -Application $appName 
 }
