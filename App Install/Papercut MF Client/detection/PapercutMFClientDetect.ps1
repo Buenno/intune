@@ -1,35 +1,24 @@
-$ErrorActionPreference = 'Stop'
+# Check if the uninstall key exists
+$appName = "Papercut MF"
+$uninstallReg = Get-ChildItem -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall" | Get-ItemProperty | Where-Object {$_.DisplayName -like "$appName*"} -ErrorAction SilentlyContinue
+$statusReg =    "Registry::HKEY_LOCAL_MACHINE\SOFTWARE\Intune_Win32\$appName"
 
-function Test-RegistryValue {
-    param (
-        [parameter(Mandatory=$true)]
-        [ValidateNotNullOrEmpty()]$Path,
-        [parameter(Mandatory=$true)]
-        [ValidateNotNullOrEmpty()]$Value
-    )
-    try {
-        Get-ItemProperty -Path $Path -Name $Value -ErrorAction Stop | Out-Null
-        return $true
-    } catch {
-        return $false
-    }
-}
+# Check if status registry keys exist
+$ops = @(
+    "Installation",
+    "Autostart Disabled"
+)
 
-## Get the uninstall string
-$application = "Papercut MF Client"
-$autorun = "PaperCutMFClient"
-$uReg = "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall"
-$aReg = "HKLM:\Software\Microsoft\Windows\CurrentVersion\Run"
+$sRegCheck = Get-Item -Path $statusReg -ErrorAction SilentlyContinue | Foreach-Object {Get-ItemPropertyValue -Path $_.PSPath -Name $_.Property | Where-Object {$_ -eq "0"}} 
 
-$uReg = (Get-ChildItem -Path $uReg | Get-ItemProperty | Where-Object {$_.DisplayName -match $($application)})
-$aCheck = Test-RegistryValue -Path $aReg -Value $autorun
+# Check if the correct number of operations are stored in the registry
+$opsRegCheck = $ops.Count -eq $sRegCheck.Count
 
-
-if (($uReg) -and ($aCheck)){
-    Write-Host "$($application) is installed."
+if (($opsRegCheck) -and ($uninstallReg)){
+    Write-Host "$appName is installed"
     exit 0
 }
 else {
-    Write-Host "$($application) is not installed."
+    Write-Host "$appName is not installed"
     exit 1
 }
