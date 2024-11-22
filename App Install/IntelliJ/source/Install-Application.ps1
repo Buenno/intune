@@ -4,20 +4,24 @@ $ErrorActionPreference = 'Stop'
 $appName =          "IntelliJ IDEA Community Edition"
 $installDir =       "$env:ProgramFiles\$appName"
 $appdataDir =       "\AppData\Roaming\JetBrains"
-$appdataSubDir =    "IdeaIC2024.2"
+$appdataSubDir =    "IdeaIC2024.3"
+
+$startMenuDir =     "JetBrains"
+$startMenuPath =    "$env:ProgramData\Microsoft\Windows\Start Menu\Programs"
+$startMenuFPath =   Join-Path -Path $startMenuPath -ChildPath $startMenuDir
 
 # Source files
-$binary =                   "$PSScriptRoot\binary\ideaIC-2024.2.3.exe"
-$configFile =               "$PSScriptRoot\config\silent.config"
-$platformPropertiesFile =   "$PSScriptRoot\config\idea.properties"
-$shareDenyFile =            "$PSScriptRoot\config\accepted"
-$optionsConfigFile =        "$PSScriptRoot\config\updates.xml"
-$plugins =                  "$PSScriptRoot\plugins\"
+$binary =                   Get-ChildItem -Path "$PSScriptRoot\binary" -Filter *.exe
+$configFile =               Get-ChildItem -Path "$PSScriptRoot\config" -Filter *.config
+$platformPropertiesFile =   Get-ChildItem -Path "$PSScriptRoot\config" -Filter *.properties
+$shareDenyFile =            Get-ChildItem -Path "$PSScriptRoot\config" -Filter "accepted"
+$optionsConfigFile =        Get-ChildItem -Path "$PSScriptRoot\config" -Filter *.xml
+$plugins =                  Get-ChildItem -Path "$PSScriptRoot\plugins\"
 
 $installParams = @(
     "/S",
     "/NCRC",
-    "/CONFIG=$configFile",
+    "/CONFIG=$($configFile.FullName)",
     "/D=$InstallDir"
     )
 
@@ -28,6 +32,7 @@ $pluginsOp =            "Plugins"
 $eulaOp =               "EULA"
 $shareDenyOp =          "Deny Data Sharing"
 $optionsOp =            "Options"
+$startMenuOp =          "Start Menu Tidied"
 
 function Remove-StatusRegistryKey {
     <#
@@ -303,65 +308,35 @@ function New-ItemPropertyAllUsers {
 Remove-StatusRegistryKey -Application $appName
 
 # Install binary
-try {
-    $i = Start-Process $binary -ArgumentList "$($installParams -join " ")" -PassThru -Wait
-    if ($i.ExitCode -eq "0"){
-        Add-StatusRegistryProperty -Application $appName -Operation $installOp -Status '1'
-    }
-    else {
-        Add-StatusRegistryProperty -Application $appName -Operation $installOp -Status '0'
-    }
-}
-catch {
-    $_
+$i = Start-Process $binary.FullName -ArgumentList "$($installParams -join " ")" -PassThru -Wait
+if ($i.ExitCode -eq "0"){
     Add-StatusRegistryProperty -Application $appName -Operation $installOp -Status '0'
 }
 
 # Copy platform properties file
-try {
-    Copy-Item -Path $platformPropertiesFile -Destination "$installDir\bin\" -Force
-    Add-StatusRegistryProperty -Application $appName -Operation $platformPropertiesOp -Status '1'
-}
-catch {
-    $_
-    Add-StatusRegistryProperty -Application $appName -Operation $platformPropertiesOp -Status '0'
-}
+Copy-Item -Path $platformPropertiesFile.FullName -Destination "$installDir\bin\" -Force
+Add-StatusRegistryProperty -Application $appName -Operation $platformPropertiesOp -Status '0'
 
 # Copy plugins
-try {
-    Copy-Item -Path "$plugins\*" -Destination "$installDir\plugins\" -Recurse -Force
-    Add-StatusRegistryProperty -Application $appName -Operation $pluginsOp -Status '1'
-}
-catch {
-    $_
-    Add-StatusRegistryProperty -Application $appName -Operation $pluginsOp -Status '0'
-}
+Copy-Item -Path $plugins.FullName -Destination "$installDir\plugins\" -Recurse -Force
+Add-StatusRegistryProperty -Application $appName -Operation $pluginsOp -Status '0'
 
 # Copy deny share settings file to all users inc. default
-try {
-    Copy-ItemAllUsers -Path $shareDenyFile -Destination "$appdataDir\consentOptions\" -IncludeDefault
-    Add-StatusRegistryProperty -Application $appName -Operation $shareDenyOp -Status '1'
-}
-catch {
-    $_
-    Add-StatusRegistryProperty -Application $appName -Operation $shareDenyOp -Status '0'
-}
+Copy-ItemAllUsers -Path $shareDenyFile.FullName -Destination "$appdataDir\consentOptions\" -IncludeDefault
+Add-StatusRegistryProperty -Application $appName -Operation $shareDenyOp -Status '0'
 
 # Copy options file to all users inc. default
-try {
-    Copy-ItemAllUsers -Path $optionsConfigFile -Destination "$appdataDir\$appdataSubDir\options" -IncludeDefault
-    Add-StatusRegistryProperty -Application $appName -Operation $optionsOp -Status '1'
-}
-catch {
-    $_
-    Add-StatusRegistryProperty -Application $appName -Operation $optionsOp -Status '0'
-}
+Copy-ItemAllUsers -Path $optionsConfigFile.FullName -Destination "$appdataDir\$appdataSubDir\options" -IncludeDefault
+Add-StatusRegistryProperty -Application $appName -Operation $optionsOp -Status '0'
 
 # Copy EULA accept to each user registry hive
-try {
-    New-ItemPropertyAllUsers -Path "SOFTWARE\JavaSoft\Prefs\jetbrains\privacy_policy\" -Name "euacommunity_accepted_version" -Value "1.0" -PropertyType String
-    Add-StatusRegistryProperty -Application $appName -Operation $eulaOp -Status '1'    
+New-ItemPropertyAllUsers -Path "SOFTWARE\JavaSoft\Prefs\jetbrains\privacy_policy\" -Name "euacommunity_accepted_version" -Value "1.0" -PropertyType String
+Add-StatusRegistryProperty -Application $appName -Operation $eulaOp -Status '0'    
+
+# Tidy up the start menu
+$lnk = Get-ChildItem -Path $startMenuFPath -Filter "IntelliJ*"
+Move-Item -Path $lnk.FullName -Destination $startMenuPath -Force
+if ((Get-ChildItem -Path $startMenuFPath -ErrorAction SilentlyContinue).count -eq 0){
+    Remove-Item -Path $startMenuFPath -Force
 }
-catch {
-    Add-StatusRegistryProperty -Application $appName -Operation $eulaOp -Status '0'    
-}
+Add-StatusRegistryProperty -Application $appName -Operation $startMenuOp -Status '0'
