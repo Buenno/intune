@@ -23,9 +23,9 @@ $opsRegCheck = $ops.Count -eq $sRegCheck.Count
 # Return exit code based on checks
 if (($uninstallReg) -and ($opsRegCheck)){
     Write-Host "$appName is installed"
-    #exit 0
+    exit 0
 }
 else {
     Write-Host "$appName is not installed"
-    #exit 1
+    exit 1
 }
