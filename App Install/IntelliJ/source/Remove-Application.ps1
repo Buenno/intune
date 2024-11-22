@@ -1,16 +1,37 @@
 $ErrorActionPreference = 'Stop'
 
-$version =          "2024.2.3"
-$appName =          "IntelliJ IDEA Community Edition"
-$displayName =      "$appname $version"
-$publisher =        "JetBrains s.r.o."
-$processName =      "idea64"
-$installDir =       $env:ProgramFiles
-$appdataDir =       "\AppData\Roaming\JetBrains"
-$appdataSubDir =    "IdeaIC2024.2"
-$rootUserReg =      "SOFTWARE\JavaSoft"
-$statusReg =        "Registry::HKEY_LOCAL_MACHINE\SOFTWARE\Intune_Win32\$appName"
-$uninstallReg =     "Registry::HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall"
+function Remove-StatusRegistryKey {
+    <#
+    .SYNOPSIS
+    Removes an application status key from the registry.
+
+    .DESCRIPTION
+    Removes an application installation status key from the registry based on the supplied application name.
+
+    .PARAMETER Application
+    The name of the application as listed in the registry.
+    
+    .OUTPUTS
+    None
+
+    .EXAMPLE
+    Remove-StatusRegistryKey -Application "Google Chrome"
+    #>
+    [CmdletBinding()]
+    param(
+        [Parameter(Mandatory = $true)]
+        [string[]] $Application
+    )
+    BEGIN {
+        $ErrorActionPreference = [System.Management.Automation.ActionPreference]::Stop
+    }
+    PROCESS {
+        $statusReg = "Registry::HKEY_LOCAL_MACHINE\SOFTWARE\Intune_Win32\$Application"
+        if ((Test-Path $statusReg)){
+            Remove-Item -Path $statusReg -Recurse -Force
+        }
+    }
+} 
 
 function Remove-ItemAllUsers {
     <#
@@ -169,31 +190,40 @@ function Remove-RegistryKeyAllUsers {
     }
 }
 
-# Get the uninstall string from the registry
-$uString = Get-Item -Path "$uninstallReg\$displayName" | Get-ItemPropertyValue -Name UninstallString
-$uParams = @(
-    "/S"
-    )
+# Get the uninstall string from registry
+$appName =          "IntelliJ IDEA Community Edition"
+$publisher =        "JetBrains s.r.o."
+$uninstallPath =    "HKLM:\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall"
+$uninstallReg =     Get-ChildItem -Path $uninstallPath | Get-ItemProperty | Where-Object {$_.DisplayName -like "$appName*"}
+$appdataDir =       "\AppData\Roaming\JetBrains"
+$appdataSubDir =    "IdeaIC2024.3"
+$startMenuItems =    Get-ChildItem -Path "$env:ProgramData\Microsoft\Windows\Start Menu\Programs" -Filter "$appName*"
 
-# Stop existing processes
-Get-Process -Name $processName -ErrorAction SilentlyContinue | Stop-Process -ErrorAction SilentlyContinue 
+
+$uninstallParams = @(
+    "/S"
+)
 
 # Uninstall application
-Start-Process -FilePath "$uString" -ArgumentList "$($uParams -join " ")" -Wait
+$u = Start-Process $uninstallReg.UninstallString -ArgumentList $uninstallParams -PassThru -Wait
 
 # Jetbrains apps share EULA and data sharing settings accross their applications, so we can't delete the associated
 # config files if another Jetbrains app is installed. 
-$installedApps = Get-ChildItem -Path $uninstallReg | Get-ItemProperty | Where-Object {($_.Publisher -eq $publisher) -and ($_.DisplayName -ne $displayName)}
+$installedApps = Get-ChildItem -Path $uninstallPath | Get-ItemProperty | Where-Object {($_.Publisher -eq $publisher) -and ($_.DisplayName -notlike "$appName*")}
 if ($installedApps.Count -ge '1'){
     Remove-ItemAllUsers -Path $appdataDir\$appdataSubDir -IncludeDefault
 }
 else {
     Remove-ItemAllUsers -Path $appdataDir -IncludeDefault
-    Remove-RegistryKeyAllUsers -Path $rootUserReg
 }
 
 # Delete install directory
-Remove-Item -Path $installDir\$appName -Recurse -Force
+Remove-Item -Path $uninstallReg.InstallLocation -Recurse -Force
 
-# Delete status registry key
-Remove-Item -Path $statusReg -Force
+# Remove start menu items
+$startMenuItems | Remove-Item -Force -ErrorAction SilentlyContinue
+
+# Remove status registry key
+if ($u.ExitCode -eq 0){
+    Remove-StatusRegistryKey -Application $appName 
+}
