@@ -11,7 +11,7 @@ $ops = @(
 $uninstallReg = Get-ChildItem -Path HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall | Get-ItemProperty | Where-Object {$_.DisplayName -like "$appName*"}
 
 # Check if status registry entries exists (created by installer)
-$sRegCheck = Get-Item -Path $statusReg | Foreach-Object {Get-ItemPropertyValue -Path $_.PSPath -Name $_.Property | Where-Object {$_ -eq "0"}} 
+$sRegCheck = Get-Item -Path $statusReg -ErrorAction SilentlyContinue | Foreach-Object {Get-ItemPropertyValue -Path $_.PSPath -Name $_.Property | Where-Object {$_ -eq "0"}} 
 
 # Check if the correct number of operations are stored in the registry
 $opsRegCheck = $ops.Count -eq $sRegCheck.Count
