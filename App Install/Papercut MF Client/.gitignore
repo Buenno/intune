@@ -1,1 +1,2 @@
-/source/binary/
+/source/binary/*
+!/source/binary/config.properties
