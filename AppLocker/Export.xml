@@ -1,0 +1,399 @@
+<AppLockerPolicy Version="1">
+  <RuleCollection Type="Appx" EnforcementMode="Enabled">
+    <FilePublisherRule Id="13f8562e-8b54-44e5-9a91-f54089d46fa2" Name="All signed packaged apps" Description="Allows members of the Everyone group to run packaged apps that are signed." UserOrGroupSid="S-1-1-0" Action="Allow">
+      <Conditions>
+        <FilePublisherCondition PublisherName="*" ProductName="*" BinaryName="*">
+          <BinaryVersionRange LowSection="0.0.0.0" HighSection="*" />
+        </FilePublisherCondition>
+      </Conditions>
+    </FilePublisherRule>
+    <FilePublisherRule Id="76787eb4-2cc9-4906-a4e6-c77bf481d035" Name="Microsoft.WindowsStore" Description="" UserOrGroupSid="S-1-5-21-3223329147-2675739271-2445898607-513" Action="Allow">
+      <Conditions>
+        <FilePublisherCondition PublisherName="CN=Microsoft Windows, O=Microsoft Corporation, L=Redmond, S=Washington, C=US" ProductName="Microsoft.WindowsStore" BinaryName="*">
+          <BinaryVersionRange LowSection="11909.1001.0.0" HighSection="*" />
+        </FilePublisherCondition>
+      </Conditions>
+    </FilePublisherRule>
+    <FilePublisherRule Id="d524d765-3172-40be-acb0-2021d22aa07c" Name="Microsoft.WindowsCalculator, from Microsoft Corporation" Description="Block calculator for exams" UserOrGroupSid="S-1-5-21-3223329147-2675739271-2445898607-7395" Action="Deny">
+      <Conditions>
+        <FilePublisherCondition PublisherName="CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US" ProductName="Microsoft.WindowsCalculator" BinaryName="*">
+          <BinaryVersionRange LowSection="*" HighSection="*" />
+        </FilePublisherCondition>
+      </Conditions>
+    </FilePublisherRule>
+  </RuleCollection>
+  <RuleCollection Type="Dll" EnforcementMode="NotConfigured" />
+  <RuleCollection Type="Exe" EnforcementMode="Enabled">
+    <FilePublisherRule Id="1408cc91-957c-43ef-b908-5ae4c92634a0" Name="PY..exe - Copied to venv as python.exe" Description="" UserOrGroupSid="S-1-1-0" Action="Allow">
+      <Conditions>
+        <FilePublisherCondition PublisherName="O=PYTHON SOFTWARE FOUNDATION, L=BEAVERTON, S=OREGON, C=US" ProductName="PYTHON" BinaryName="PY.EXE">
+          <BinaryVersionRange LowSection="3.12.0.0" HighSection="*" />
+        </FilePublisherCondition>
+      </Conditions>
+    </FilePublisherRule>
+    <FilePublisherRule Id="22e42241-e59b-4030-a876-1d6fda744d96" Name="GOTOOPENER.EXE, version 1.0.0.0 and above, in GOTO OPENER, from O=LOGMEIN, INC., L=BOSTON, S=MASSACHUSETTS, C=US" Description="" UserOrGroupSid="S-1-5-21-3223329147-2675739271-2445898607-7239" Action="Allow">
+      <Conditions>
+        <FilePublisherCondition PublisherName="O=LOGMEIN, INC., L=BOSTON, S=MASSACHUSETTS, C=US" ProductName="GOTO OPENER" BinaryName="GOTOOPENER.EXE">
+          <BinaryVersionRange LowSection="1.0.0.0" HighSection="*" />
+        </FilePublisherCondition>
+      </Conditions>
+    </FilePublisherRule>
+    <FilePublisherRule Id="2620d333-feb0-4a31-916a-e9ec023f8aaf" Name="CONNECTAPPSETUP.EXE, version 1.0.0.0 and above, in ADOBE CONNECT, from O=ADOBE SYSTEMS INCORPORATED, L=SAN JOSE, S=CALIFORNIA, C=US" Description="" UserOrGroupSid="S-1-5-21-3223329147-2675739271-2445898607-7239" Action="Allow">
+      <Conditions>
+        <FilePublisherCondition PublisherName="O=ADOBE SYSTEMS INCORPORATED, L=SAN JOSE, S=CALIFORNIA, C=US" ProductName="ADOBE CONNECT" BinaryName="CONNECTAPPSETUP.EXE">
+          <BinaryVersionRange LowSection="1.0.0.0" HighSection="*" />
+        </FilePublisherCondition>
+      </Conditions>
+    </FilePublisherRule>
+    <FilePublisherRule Id="2e82d959-d9b6-44b2-9eb5-12d12cc2312a" Name="Allow Sharepoint by Publisher" Description="" UserOrGroupSid="S-1-1-0" Action="Allow">
+      <Conditions>
+        <FilePublisherCondition PublisherName="O=MICROSOFT CORPORATION, L=REDMOND, S=WASHINGTON, C=US" ProductName="MICROSOFT SHAREPOINT" BinaryName="*">
+          <BinaryVersionRange LowSection="*" HighSection="*" />
+        </FilePublisherCondition>
+      </Conditions>
+    </FilePublisherRule>
+    <FilePublisherRule Id="367c6ede-9ab6-496e-91bf-8f4daba7ac86" Name="TEAMS.EXE, in MICROSOFT TEAMS, from O=MICROSOFT CORPORATION, L=REDMOND, S=WASHINGTON, C=US" Description="" UserOrGroupSid="S-1-1-0" Action="Allow">
+      <Conditions>
+        <FilePublisherCondition PublisherName="O=MICROSOFT CORPORATION, L=REDMOND, S=WASHINGTON, C=US" ProductName="MICROSOFT TEAMS" BinaryName="TEAMS.EXE">
+          <BinaryVersionRange LowSection="*" HighSection="*" />
+        </FilePublisherCondition>
+      </Conditions>
+    </FilePublisherRule>
+    <FilePublisherRule Id="510ea153-0489-4d62-8177-42626ef52d04" Name="UPDATE.EXE, in MICROSOFT TEAMS, from O=MICROSOFT CORPORATION, L=REDMOND, S=WASHINGTON, C=US" Description="" UserOrGroupSid="S-1-1-0" Action="Allow">
+      <Conditions>
+        <FilePublisherCondition PublisherName="O=MICROSOFT CORPORATION, L=REDMOND, S=WASHINGTON, C=US" ProductName="MICROSOFT TEAMS" BinaryName="UPDATE.EXE">
+          <BinaryVersionRange LowSection="*" HighSection="*" />
+        </FilePublisherCondition>
+      </Conditions>
+    </FilePublisherRule>
+    <FilePublisherRule Id="522fda8c-0ec6-45de-83bf-39d932c3a268" Name="CRICUT DESIGN SPACE.EXE, version 6.11.0.0 and above, in CRICUT DESIGN SPACE, from O=CRICUT, INC., L=SOUTH JORDAN, S=UTAH, C=US" Description="" UserOrGroupSid="S-1-1-0" Action="Allow">
+      <Conditions>
+        <FilePublisherCondition PublisherName="O=CRICUT, INC., L=SOUTH JORDAN, S=UTAH, C=US" ProductName="CRICUT DESIGN SPACE" BinaryName="">
+          <BinaryVersionRange LowSection="6.11.0.0" HighSection="*" />
+        </FilePublisherCondition>
+      </Conditions>
+    </FilePublisherRule>
+    <FilePublisherRule Id="59fa23c5-76c3-4f32-b2bc-7e644c9bf5aa" Name="ZOOM OPENER, version 4.6.0.0 and above, in ZOOM OPENER, from O=ZOOM VIDEO COMMUNICATIONS, INC., L=SAN JOSE, S=CALIFORNIA, C=US" Description="" UserOrGroupSid="S-1-5-21-3223329147-2675739271-2445898607-7239" Action="Allow">
+      <Conditions>
+        <FilePublisherCondition PublisherName="O=ZOOM VIDEO COMMUNICATIONS, INC., L=SAN JOSE, S=CALIFORNIA, C=US" ProductName="ZOOM OPENER" BinaryName="ZOOM OPENER">
+          <BinaryVersionRange LowSection="4.6.0.0" HighSection="*" />
+        </FilePublisherCondition>
+      </Conditions>
+    </FilePublisherRule>
+    <FilePublisherRule Id="5dbc06b4-170d-4932-ad2e-bf8810661132" Name="UPDATE.EXE, in MICROSOFT TEAMS UPDATE, from O=MICROSOFT CORPORATION, L=REDMOND, S=WASHINGTON, C=US" Description="" UserOrGroupSid="S-1-1-0" Action="Allow">
+      <Conditions>
+        <FilePublisherCondition PublisherName="O=MICROSOFT CORPORATION, L=REDMOND, S=WASHINGTON, C=US" ProductName="MICROSOFT TEAMS UPDATE" BinaryName="UPDATE.EXE">
+          <BinaryVersionRange LowSection="*" HighSection="*" />
+        </FilePublisherCondition>
+      </Conditions>
+    </FilePublisherRule>
+    <FilePublisherRule Id="8821a15c-9f79-4872-8760-eb957e2c582e" Name="Signed by O=BLUE JEANS NETWORK, INC., L=MOUNTAIN VIEW, S=CALIFORNIA, C=US" Description="Blue Jeans publisher rule" UserOrGroupSid="S-1-1-0" Action="Allow">
+      <Conditions>
+        <FilePublisherCondition PublisherName="O=BLUE JEANS NETWORK, INC., L=MOUNTAIN VIEW, S=CALIFORNIA, C=US" ProductName="*" BinaryName="*">
+          <BinaryVersionRange LowSection="*" HighSection="*" />
+        </FilePublisherCondition>
+      </Conditions>
+    </FilePublisherRule>
+    <FilePublisherRule Id="89cc75cf-a9ac-4f42-a858-74d85e10fa85" Name="Python" Description="" UserOrGroupSid="S-1-1-0" Action="Allow">
+      <Conditions>
+        <FilePublisherCondition PublisherName="O=PYTHON SOFTWARE FOUNDATION, L=BEAVERTON, S=OREGON, C=US" ProductName="PYTHON" BinaryName="PYTHON.EXE">
+          <BinaryVersionRange LowSection="3.12.0.0" HighSection="*" />
+        </FilePublisherCondition>
+      </Conditions>
+    </FilePublisherRule>
+    <FilePublisherRule Id="97955be4-692c-40f2-a22e-30757a8f8c67" Name="GOTOOPENER.EXE, version 1.0.0.0 and above, in GOTO OPENER, from O=LOGMEIN, INC., L=BOSTON, S=MASSACHUSETTS, C=US" Description="" UserOrGroupSid="S-1-5-21-3223329147-2675739271-2445898607-7239" Action="Allow">
+      <Conditions>
+        <FilePublisherCondition PublisherName="O=LOGMEIN, INC., L=BOSTON, S=MASSACHUSETTS, C=US" ProductName="GOTO OPENER" BinaryName="GOTOOPENER.EXE">
+          <BinaryVersionRange LowSection="1.0.0.0" HighSection="*" />
+        </FilePublisherCondition>
+      </Conditions>
+    </FilePublisherRule>
+    <FilePublisherRule Id="98a75039-3943-4a33-ab91-182d4ea0b894" Name="CAMMENUPLAYER.EXE, version 7.1.0.0 and above, in CAMTASIA STUDIO, from O=TECHSMITH CORPORATION, L=OKEMOS, S=MICHIGAN, C=US" Description="MathsWatch CD" UserOrGroupSid="S-1-1-0" Action="Allow">
+      <Conditions>
+        <FilePublisherCondition PublisherName="O=TECHSMITH CORPORATION, L=OKEMOS, S=MICHIGAN, C=US" ProductName="CAMTASIA STUDIO" BinaryName="CAMMENUPLAYER.EXE">
+          <BinaryVersionRange LowSection="7.1.0.0" HighSection="*" />
+        </FilePublisherCondition>
+      </Conditions>
+    </FilePublisherRule>
+    <FilePublisherRule Id="dcb3f9dd-2fbd-4e80-856c-c476d7a94bb2" Name="TeamviewerQS, version 12.1.0.0 and above, in TEAMVIEWER QS, from O=TEAMVIEWER GMBH, L=GOEPPINGEN, S=BADEN-WUERTTEMBERG, C=DE" Description="" UserOrGroupSid="S-1-5-21-3223329147-2675739271-2445898607-7239" Action="Allow">
+      <Conditions>
+        <FilePublisherCondition PublisherName="O=TEAMVIEWER GMBH, L=GOEPPINGEN, S=BADEN-WUERTTEMBERG, C=DE" ProductName="TEAMVIEWER QS" BinaryName="">
+          <BinaryVersionRange LowSection="12.1.0.0" HighSection="*" />
+        </FilePublisherCondition>
+      </Conditions>
+    </FilePublisherRule>
+    <FilePublisherRule Id="ee32f261-7249-46e5-b91d-cbccd0c3bcca" Name="Allow OneDrive by Publisher" Description="" UserOrGroupSid="S-1-1-0" Action="Allow">
+      <Conditions>
+        <FilePublisherCondition PublisherName="O=MICROSOFT CORPORATION, L=REDMOND, S=WASHINGTON, C=US" ProductName="MICROSOFT ONEDRIVE" BinaryName="*">
+          <BinaryVersionRange LowSection="*" HighSection="*" />
+        </FilePublisherCondition>
+      </Conditions>
+    </FilePublisherRule>
+    <FilePublisherRule Id="f95b800f-5405-49b8-a4c0-81c65e2ba3ae" Name="Autodesk Licence - Signed by O=AUTODESK, INC., L=SAN RAFAEL, S=CALIFORNIA, C=US" Description="" UserOrGroupSid="S-1-1-0" Action="Allow">
+      <Conditions>
+        <FilePublisherCondition PublisherName="O=AUTODESK, INC., L=SAN RAFAEL, S=CALIFORNIA, C=US" ProductName="*" BinaryName="*">
+          <BinaryVersionRange LowSection="*" HighSection="*" />
+        </FilePublisherCondition>
+      </Conditions>
+    </FilePublisherRule>
+    <FilePathRule Id="0eb5f4d3-e37c-495d-9346-95783f2adca7" Name="\\tas.internall\sysvol\*" Description="" UserOrGroupSid="S-1-1-0" Action="Allow">
+      <Conditions>
+        <FilePathCondition Path="\\tas.internall\sysvol\*" />
+      </Conditions>
+    </FilePathRule>
+    <FilePathRule Id="17c543e6-9c13-4dd7-bad5-90a1041ad3bb" Name="\\PS1\PCClient" Description="" UserOrGroupSid="S-1-1-0" Action="Allow">
+      <Conditions>
+        <FilePathCondition Path="\\PS1\PCClient\*" />
+      </Conditions>
+    </FilePathRule>
+    <FilePathRule Id="18d06d06-e7ba-4111-a215-f81ac3d6ae91" Name="\\NAPPS1\NetworkApps\*" Description="" UserOrGroupSid="S-1-1-0" Action="Allow">
+      <Conditions>
+        <FilePathCondition Path="\\NAPPS1\NetworkApps\*" />
+      </Conditions>
+    </FilePathRule>
+    <FilePathRule Id="192f2e82-8f86-4274-94a7-825934a24350" Name="C:\Program Files\Google\Drive File Stream" Description="" UserOrGroupSid="S-1-5-21-3223329147-2675739271-2445898607-7395" Action="Deny">
+      <Conditions>
+        <FilePathCondition Path="C:\Program Files\Google\Drive File Stream" />
+      </Conditions>
+    </FilePathRule>
+    <FilePathRule Id="1eecf42a-04f1-4a84-995e-c9ad62db8f97" Name="(Default Rule) All files located in the Windows folder w/exceptions" Description="Allows members of the Everyone group to run applications that are located in the Windows folder." UserOrGroupSid="S-1-1-0" Action="Allow">
+      <Conditions>
+        <FilePathCondition Path="%WINDIR%\*" />
+      </Conditions>
+      <Exceptions>
+        <FilePathCondition Path="C:\Windows\System32\dllcache\*" />
+        <FilePathCondition Path="C:\Windows\System32\repair\*" />
+        <FilePathCondition Path="C:\Windows\System32\ServerManager.exe" />
+        <FilePathCondition Path="C:\Windows\Temp\*" />
+        <FilePathCondition Path="C;\Windows\System32\runas.exe" />
+      </Exceptions>
+    </FilePathRule>
+    <FilePathRule Id="23352459-45eb-4344-a7dc-b81c537c03eb" Name="%OSDRIVE%\Users\*\AppData\Local\Temp\*" Description="allow powershell method invocation as used in the RunPreAuthURLsMinimised script" UserOrGroupSid="S-1-1-0" Action="Allow">
+      <Conditions>
+        <FilePathCondition Path="%OSDRIVE%\Users\*\AppData\Local\Temp\*" />
+      </Conditions>
+    </FilePathRule>
+    <FilePathRule Id="3c89b627-732f-429c-9943-6886ea4d3c28" Name="C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe" Description="" UserOrGroupSid="S-1-5-21-3223329147-2675739271-2445898607-7395" Action="Deny">
+      <Conditions>
+        <FilePathCondition Path="C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe" />
+      </Conditions>
+    </FilePathRule>
+    <FilePathRule Id="65a6fdd9-ecd9-4a7b-a1ec-af80c54d2010" Name="\\tas.internal\netlogon\scripts\*" Description="" UserOrGroupSid="S-1-1-0" Action="Allow">
+      <Conditions>
+        <FilePathCondition Path="\\tas.internal\netlogon\scripts\*" />
+      </Conditions>
+    </FilePathRule>
+    <FilePathRule Id="7972aff5-5009-4596-9ecd-47ff3441e2ea" Name="\\tas.internal\software\Packages\*" Description="" UserOrGroupSid="S-1-1-0" Action="Allow">
+      <Conditions>
+        <FilePathCondition Path="\\tas.internal\software\Packages\*" />
+      </Conditions>
+    </FilePathRule>
+    <FilePathRule Id="80f7cbde-3dcd-40f5-a86a-0b68edf44d47" Name="Exempt from AppLocker" Description="Required for Domain Admins to run executables unelevated" UserOrGroupSid="S-1-5-21-3223329147-2675739271-2445898607-512" Action="Allow">
+      <Conditions>
+        <FilePathCondition Path="*" />
+      </Conditions>
+    </FilePathRule>
+    <FilePathRule Id="83ae3697-5842-444c-b9f3-ada32eb08903" Name="%PROGRAMFILES%\Google\Chrome\Application\chrome.exe" Description="Block Chrome for exam users" UserOrGroupSid="S-1-5-21-3223329147-2675739271-2445898607-7395" Action="Deny">
+      <Conditions>
+        <FilePathCondition Path="%PROGRAMFILES%\Google\Chrome\Application\chrome.exe" />
+      </Conditions>
+    </FilePathRule>
+    <FilePathRule Id="89bc8418-0b55-4ccd-a487-04470c18411c" Name="\\PS1\PCClient\win\pc-client.exe" Description="Disable running of papercut client for exam restrictions" UserOrGroupSid="S-1-5-21-3223329147-2675739271-2445898607-7395" Action="Deny">
+      <Conditions>
+        <FilePathCondition Path="\\PS1\PCClient" />
+      </Conditions>
+    </FilePathRule>
+    <FilePathRule Id="8aac64d9-2e08-44b4-a2ef-ff1acf724181" Name="\\PASS1\WCBS$\PASS\" Description="Allow PASS" UserOrGroupSid="S-1-1-0" Action="Allow">
+      <Conditions>
+        <FilePathCondition Path="\\pass1\wcbS$\Pass for Windows\pass2.exe" />
+      </Conditions>
+    </FilePathRule>
+    <FilePathRule Id="a0b3501b-0f86-4248-8a85-e0a6d6bb87be" Name="d:\wamp64\wampmanager.exe" Description="" UserOrGroupSid="S-1-1-0" Action="Allow">
+      <Conditions>
+        <FilePathCondition Path="d:\wamp64\wampmanager.exe" />
+      </Conditions>
+    </FilePathRule>
+    <FilePathRule Id="b410ea3e-e3c9-4766-91a4-be4e6764cfb7" Name="Gradle - %OSDRIVE%\USERS\*\APPDATA\LOCAL\ANDROID\SDK\PLATFORM-TOOLS" Description="" UserOrGroupSid="S-1-1-0" Action="Allow">
+      <Conditions>
+        <FilePathCondition Path="%OSDRIVE%\USERS\*\APPDATA\LOCAL\ANDROID\SDK\PLATFORM-TOOLS\*" />
+      </Conditions>
+    </FilePathRule>
+    <FilePathRule Id="c618d6f8-0487-4ab1-a529-8eb91443d50d" Name="c:\Windows\System32\calc.exe" Description="Block claculator for exam use" UserOrGroupSid="S-1-5-21-3223329147-2675739271-2445898607-7395" Action="Deny">
+      <Conditions>
+        <FilePathCondition Path="c:\Windows\System32\calc.exe" />
+      </Conditions>
+    </FilePathRule>
+    <FilePathRule Id="c6a730b0-d98e-4a56-a0d6-1fc41e2418bd" Name="\\tas\software\NetworkApps\*" Description="" UserOrGroupSid="S-1-1-0" Action="Allow">
+      <Conditions>
+        <FilePathCondition Path="\\tas\software\NetworkApps\*" />
+      </Conditions>
+    </FilePathRule>
+    <FilePathRule Id="c7096bbc-ea2f-40f6-8077-4df4d87bfbd8" Name="%OSDRIVE%\ProgramData\AndroidStudioSDK\*" Description="Allow all users to run Android Studio App which uses this folder for the SDK" UserOrGroupSid="S-1-1-0" Action="Allow">
+      <Conditions>
+        <FilePathCondition Path="%OSDRIVE%\ProgramData\AndroidStudioSDK\*" />
+      </Conditions>
+    </FilePathRule>
+    <FilePathRule Id="dc2b9d9b-ba38-4c81-b09d-b7591a3bfd57" Name="C:\Program Files\Microsoft Office\root\Office16\Excel.exe" Description="Excel block for exam use" UserOrGroupSid="S-1-5-21-3223329147-2675739271-2445898607-7395" Action="Deny">
+      <Conditions>
+        <FilePathCondition Path="C:\Program Files\Microsoft Office\root\Office16\Excel.exe" />
+      </Conditions>
+    </FilePathRule>
+    <FilePathRule Id="e2f82bc7-6112-48ea-8771-768166d17b19" Name="\\tas.internal\software\NetworkApps\*" Description="" UserOrGroupSid="S-1-1-0" Action="Allow">
+      <Conditions>
+        <FilePathCondition Path="\\tas.internal\software\NetworkApps\*" />
+      </Conditions>
+    </FilePathRule>
+    <FilePathRule Id="fd686d83-a829-4351-8ff4-27c7de5755d2" Name="(Default Rule) All files" Description="Allows members of the local Administrators group to run all applications." UserOrGroupSid="S-1-5-32-544" Action="Allow">
+      <Conditions>
+        <FilePathCondition Path="*" />
+      </Conditions>
+    </FilePathRule>
+    <FilePathRule Id="fdf51e6a-5509-44ea-bed1-f74d783e6123" Name="All files located in the Program Files folder" Description="Allows members of the Everyone group to run applications that are located in the Program Files folder." UserOrGroupSid="S-1-1-0" Action="Allow">
+      <Conditions>
+        <FilePathCondition Path="%PROGRAMFILES%\*" />
+      </Conditions>
+    </FilePathRule>
+    <FileHashRule Id="054d2d21-c346-489e-864e-d7e1cb3e9803" Name="fx9860emulator.exe" Description="Maths Calculator Emulator" UserOrGroupSid="S-1-1-0" Action="Allow">
+      <Conditions>
+        <FileHashCondition>
+          <FileHash Type="SHA256" Data="0x4108BD596C9E2C89D9AA85E6C2ADF282D4596953665802589E16E13C6F11E4A2" SourceFileName="fx9860emulator.exe" SourceFileLength="2650112" />
+        </FileHashCondition>
+      </Conditions>
+    </FileHashRule>
+    <FileHashRule Id="07d03ef6-7ffb-45db-bdec-d08129eda4e0" Name="Timetabler" Description="Keith Johnson Timetabler" UserOrGroupSid="S-1-5-21-3223329147-2675739271-2445898607-8916" Action="Allow">
+      <Conditions>
+        <FileHashCondition>
+          <FileHash Type="SHA256" Data="0x25CA8F7730663B70FA6A716C64D61ACA1BCABE392A938867F30AC3C52B579F68" SourceFileName="TT4W.exe" SourceFileLength="36357528" />
+        </FileHashCondition>
+      </Conditions>
+    </FileHashRule>
+    <FileHashRule Id="14d58b87-9543-4e88-8706-52e73385bb4b" Name="TeamViewerQS.exe" Description="Teamviewer exception" UserOrGroupSid="S-1-5-21-3223329147-2675739271-2445898607-7239" Action="Allow">
+      <Conditions>
+        <FileHashCondition>
+          <FileHash Type="SHA256" Data="0xCAE65B09E264E92AB77C09E234536AFACC6E16C545909DBB6175D304657123AF" SourceFileName="TeamViewerQS.exe" SourceFileLength="17966600" />
+        </FileHashCondition>
+      </Conditions>
+    </FileHashRule>
+    <FileHashRule Id="1c3e8a29-63f2-4e97-83ea-5e81245b4785" Name="teamviewerqs.exe" Description="" UserOrGroupSid="S-1-5-21-3223329147-2675739271-2445898607-7239" Action="Allow">
+      <Conditions>
+        <FileHashCondition>
+          <FileHash Type="SHA256" Data="0xF1A858DB5C194E7783BE720F06B804AFB7525AC5F64CCF2E1C161CFF888AEBFF" SourceFileName="teamviewerqs.exe" SourceFileLength="17278376" />
+        </FileHashCondition>
+      </Conditions>
+    </FileHashRule>
+    <FileHashRule Id="34545355-e098-433e-883c-66e882c8d9e9" Name="TeamViewer_Setup.exe" Description="" UserOrGroupSid="S-1-5-21-3223329147-2675739271-2445898607-7239" Action="Allow">
+      <Conditions>
+        <FileHashCondition>
+          <FileHash Type="SHA256" Data="0xF162DD0A38DD1F5E224D5BE22D6E5D872CBAAF2C1C39236EB6B4A0E88C0AF7DD" SourceFileName="TeamViewer_Setup.exe" SourceFileLength="26203216" />
+        </FileHashCondition>
+      </Conditions>
+    </FileHashRule>
+    <FileHashRule Id="46c5dc83-4dc1-4c80-9073-e54d2c275751" Name="TurtleSystem.exe" Description="" UserOrGroupSid="S-1-1-0" Action="Allow">
+      <Conditions>
+        <FileHashCondition>
+          <FileHash Type="SHA256" Data="0x78091472F7C28207856ACE6021D1303382BE6405E187C6CC6AF8A98D2DB86FE3" SourceFileName="TurtleSystem.exe" SourceFileLength="4210688" />
+        </FileHashCondition>
+      </Conditions>
+    </FileHashRule>
+    <FileHashRule Id="e8aa8e14-c571-4b1e-a2fe-1ccb86ceef8e" Name="Options" Description="Keith Johnson Timetabler Options" UserOrGroupSid="S-1-1-0" Action="Allow">
+      <Conditions>
+        <FileHashCondition>
+          <FileHash Type="SHA256" Data="0x8D387161D5CD6FB0E0FECAA9A0DA18539653FFE470B933F6B509494C250ACD8C" SourceFileName="TTOpt.exe" SourceFileLength="29511568" />
+        </FileHashCondition>
+      </Conditions>
+    </FileHashRule>
+    <FileHashRule Id="ef417e64-de4b-4861-bdb7-f7bdca32df66" Name="BlueJeansLauncher.exe" Description="For BlueJeans web conferencing" UserOrGroupSid="S-1-5-21-3223329147-2675739271-2445898607-7239" Action="Allow">
+      <Conditions>
+        <FileHashCondition>
+          <FileHash Type="SHA256" Data="0x8913841B5BED1D7B9CAA318772E578CA43943B18ED3A33B396598E5938A883F8" SourceFileName="BlueJeansLauncher.exe" SourceFileLength="26067648" />
+        </FileHashCondition>
+      </Conditions>
+    </FileHashRule>
+  </RuleCollection>
+  <RuleCollection Type="Msi" EnforcementMode="Enabled">
+    <FilePublisherRule Id="8889625f-41cf-4ff1-8c6c-966a7a5655fd" Name="All digitally signed Windows Installer files" Description="Allows members of the Everyone group to run digitally signed Windows Installer files." UserOrGroupSid="S-1-1-0" Action="Allow">
+      <Conditions>
+        <FilePublisherCondition PublisherName="*" ProductName="*" BinaryName="*">
+          <BinaryVersionRange LowSection="0.0.0.0" HighSection="*" />
+        </FilePublisherCondition>
+      </Conditions>
+    </FilePublisherRule>
+    <FilePathRule Id="1382a6bb-60c2-43f0-a0fc-4920c829ac61" Name="Exempt from Applocker" Description="Allow Domain Admins to run Windows Installers like MSI's." UserOrGroupSid="S-1-5-21-3223329147-2675739271-2445898607-512" Action="Allow">
+      <Conditions>
+        <FilePathCondition Path="*" />
+      </Conditions>
+    </FilePathRule>
+    <FilePathRule Id="2b71facb-66d4-4270-b409-b9bf259f2e52" Name="All Windows Installer files" Description="Allows members of the local Administrators group to run all Windows Installer files." UserOrGroupSid="S-1-5-32-544" Action="Allow">
+      <Conditions>
+        <FilePathCondition Path="*.*" />
+      </Conditions>
+    </FilePathRule>
+    <FilePathRule Id="30a5cdbd-bf00-445c-8ed4-387122f2548c" Name="\\tas\software\Packages" Description="" UserOrGroupSid="S-1-1-0" Action="Allow">
+      <Conditions>
+        <FilePathCondition Path="\\tas\software\Packages" />
+      </Conditions>
+    </FilePathRule>
+    <FilePathRule Id="5cb4542a-2ba2-4e05-b8da-186eaf44b682" Name="All Windows Installer files in %systemdrive%\Windows\Installer" Description="Allows members of the Everyone group to run all Windows Installer files located in %systemdrive%\Windows\Installer." UserOrGroupSid="S-1-1-0" Action="Allow">
+      <Conditions>
+        <FilePathCondition Path="%WINDIR%\Installer\*" />
+      </Conditions>
+    </FilePathRule>
+    <FilePathRule Id="67b5b9f5-384b-4f6e-8116-552ef9955796" Name="%OSDRIVE%\Users\*\AppData\*" Description="" UserOrGroupSid="S-1-1-0" Action="Allow">
+      <Conditions>
+        <FilePathCondition Path="%OSDRIVE%\Users\*\AppData\*" />
+      </Conditions>
+    </FilePathRule>
+  </RuleCollection>
+  <RuleCollection Type="Script" EnforcementMode="Enabled">
+    <FilePathRule Id="00effa93-5157-4b40-a1cf-360a3564eb67" Name="\\tas.internal\netlogon\scripts\*" Description="" UserOrGroupSid="S-1-1-0" Action="Allow">
+      <Conditions>
+        <FilePathCondition Path="\\TAS.INTERNAL\NETLOGON\SCRIPTS\*" />
+      </Conditions>
+    </FilePathRule>
+    <FilePathRule Id="247a2cfc-35da-4542-82df-029fdf513b21" Name="\\tas.internal\sysvol\*" Description="" UserOrGroupSid="S-1-1-0" Action="Allow">
+      <Conditions>
+        <FilePathCondition Path="\\tas.internal\sysvol\*" />
+      </Conditions>
+    </FilePathRule>
+    <FilePathRule Id="73c40686-7239-462a-b0bd-b931c337a693" Name="Exempt from Applocker" Description="Required for Admins to run any script non elevated" UserOrGroupSid="S-1-5-21-3223329147-2675739271-2445898607-512" Action="Allow">
+      <Conditions>
+        <FilePathCondition Path="*" />
+      </Conditions>
+    </FilePathRule>
+    <FilePathRule Id="814dfed3-5656-4992-835f-3d7fb992790f" Name="\\tas\netlogon\*" Description="" UserOrGroupSid="S-1-1-0" Action="Allow">
+      <Conditions>
+        <FilePathCondition Path="\\tas\netlogon\*" />
+      </Conditions>
+    </FilePathRule>
+    <FilePathRule Id="8c1ce6f2-89e3-49b2-bbfa-cc8ec1e5f5ee" Name="All scripts" Description="Allows members of the local Administrators group to run all scripts." UserOrGroupSid="S-1-5-32-544" Action="Allow">
+      <Conditions>
+        <FilePathCondition Path="*" />
+      </Conditions>
+    </FilePathRule>
+    <FilePathRule Id="8efadc2e-b639-4625-bb56-2d5598cb66e7" Name="%OSDRIVE%\users\*\appdata\local\temp\_PS*.psm1" Description="Allow Powershell method invocation as per used in the PreAuthURLs script to close Chrome gently" UserOrGroupSid="S-1-1-0" Action="Allow">
+      <Conditions>
+        <FilePathCondition Path="%OSDRIVE%\users\*\appdata\local\temp\_PS*.psm1" />
+      </Conditions>
+    </FilePathRule>
+    <FilePathRule Id="ac844927-414d-40b7-b83f-22338a2ca42b" Name="\\tas.internal\software\networkapps\*" Description="" UserOrGroupSid="S-1-1-0" Action="Allow">
+      <Conditions>
+        <FilePathCondition Path="\\tas\software\networkapps\*" />
+      </Conditions>
+    </FilePathRule>
+    <FilePathRule Id="bfa831e1-6c66-4f58-a53f-1ab01c916f53" Name="%OSDRIVE%\users\*\appdata\local\temp\_PS*.ps1" Description="Allow Powershell method invocation as per used in the PreAuthURLs script to close Chrome gently" UserOrGroupSid="S-1-1-0" Action="Allow">
+      <Conditions>
+        <FilePathCondition Path="%OSDRIVE%\Users\*\AppData\Local\Temp\*" />
+      </Conditions>
+    </FilePathRule>
+    <FilePathRule Id="cb4bb5d3-f72f-41c9-ac66-c2355a27bfb4" Name="All scripts located in the Program Files folder" Description="Allows members of the Everyone group to run scripts that are located in the Program Files folder." UserOrGroupSid="S-1-1-0" Action="Allow">
+      <Conditions>
+        <FilePathCondition Path="%PROGRAMFILES%\*" />
+      </Conditions>
+    </FilePathRule>
+    <FilePathRule Id="eed58262-edf1-49e9-b637-a7adad064efd" Name="All scripts located in the Windows folder" Description="Allows members of the Everyone group to run scripts that are located in the Windows folder." UserOrGroupSid="S-1-1-0" Action="Allow">
+      <Conditions>
+        <FilePathCondition Path="%WINDIR%\*" />
+      </Conditions>
+    </FilePathRule>
+  </RuleCollection>
+</AppLockerPolicy>
