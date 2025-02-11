@@ -269,7 +269,7 @@ function New-ItemPropertyAllUsers {
         if ($IncludeDefault){
             $defaultUser = [pscustomobject]@{
                 SID = "defaultuser"
-                UserHive = "$env:SystemDrive\Users\public\NTUSER.DAT"
+                UserHive = "$env:SystemDrive\Users\default\NTUSER.DAT"
             }
             $profileList.Add($defaultUser) | Out-Null
         }
@@ -330,7 +330,7 @@ Copy-ItemAllUsers -Path $optionsConfigFile.FullName -Destination "$appdataDir\$a
 Add-StatusRegistryProperty -Application $appName -Operation $optionsOp -Status '0'
 
 # Copy EULA accept to each user registry hive
-New-ItemPropertyAllUsers -Path "SOFTWARE\JavaSoft\Prefs\jetbrains\privacy_policy\" -Name "euacommunity_accepted_version" -Value "1.0" -PropertyType String
+New-ItemPropertyAllUsers -Path "SOFTWARE\JavaSoft\Prefs\jetbrains\privacy_policy\" -Name "euacommunity_accepted_version" -Value "1.0" -PropertyType String -IncludeDefault
 Add-StatusRegistryProperty -Application $appName -Operation $eulaOp -Status '0'    
 
 # Tidy up the start menu

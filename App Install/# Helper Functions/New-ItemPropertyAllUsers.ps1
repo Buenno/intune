@@ -77,7 +77,7 @@ function New-ItemPropertyAllUsers {
         if ($IncludeDefault){
             $defaultUser = [pscustomobject]@{
                 SID = "defaultuser"
-                UserHive = "$env:SystemDrive\Users\public\NTUSER.DAT"
+                UserHive = "$env:SystemDrive\Users\default\NTUSER.DAT"
             }
             $profileList.Add($defaultUser) | Out-Null
         }
