@@ -1,0 +1,16 @@
+<RuleCollection Type="Appx" EnforcementMode="Enabled">
+    <FilePublisherRule Id="13f8562e-8b54-44e5-9a91-f54089d46fa2" Name="All signed packaged apps" Description="Allows members of the Everyone group to run packaged apps that are signed." UserOrGroupSid="S-1-1-0" Action="Allow">
+      <Conditions>
+        <FilePublisherCondition PublisherName="*" ProductName="*" BinaryName="*">
+          <BinaryVersionRange LowSection="0.0.0.0" HighSection="*" />
+        </FilePublisherCondition>
+      </Conditions>
+    </FilePublisherRule>
+    <FilePublisherRule Id="76787eb4-2cc9-4906-a4e6-c77bf481d035" Name="Microsoft.WindowsStore" Description="" UserOrGroupSid="S-1-5-32-544" Action="Allow">
+      <Conditions>
+        <FilePublisherCondition PublisherName="CN=Microsoft Windows, O=Microsoft Corporation, L=Redmond, S=Washington, C=US" ProductName="Microsoft.WindowsStore" BinaryName="*">
+          <BinaryVersionRange LowSection="11909.1001.0.0" HighSection="*" />
+        </FilePublisherCondition>
+      </Conditions>
+    </FilePublisherRule>
+</RuleCollection>

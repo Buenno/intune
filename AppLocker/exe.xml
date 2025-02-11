@@ -1,0 +1,71 @@
+<RuleCollection Type="Exe" EnforcementMode="Enabled">
+    <FilePublisherRule Id="2e82d959-d9b6-44b2-9eb5-12d12cc2312a" Name="Allow Sharepoint by Publisher" Description="" UserOrGroupSid="S-1-1-0" Action="Allow">
+      <Conditions>
+        <FilePublisherCondition PublisherName="O=MICROSOFT CORPORATION, L=REDMOND, S=WASHINGTON, C=US" ProductName="MICROSOFT SHAREPOINT" BinaryName="*">
+          <BinaryVersionRange LowSection="*" HighSection="*" />
+        </FilePublisherCondition>
+      </Conditions>
+    </FilePublisherRule>
+    <FilePublisherRule Id="367c6ede-9ab6-496e-91bf-8f4daba7ac86" Name="TEAMS.EXE, in MICROSOFT TEAMS, from O=MICROSOFT CORPORATION, L=REDMOND, S=WASHINGTON, C=US" Description="" UserOrGroupSid="S-1-1-0" Action="Allow">
+      <Conditions>
+        <FilePublisherCondition PublisherName="O=MICROSOFT CORPORATION, L=REDMOND, S=WASHINGTON, C=US" ProductName="MICROSOFT TEAMS" BinaryName="TEAMS.EXE">
+          <BinaryVersionRange LowSection="*" HighSection="*" />
+        </FilePublisherCondition>
+      </Conditions>
+    </FilePublisherRule>
+    <FilePublisherRule Id="510ea153-0489-4d62-8177-42626ef52d04" Name="UPDATE.EXE, in MICROSOFT TEAMS, from O=MICROSOFT CORPORATION, L=REDMOND, S=WASHINGTON, C=US" Description="" UserOrGroupSid="S-1-1-0" Action="Allow">
+      <Conditions>
+        <FilePublisherCondition PublisherName="O=MICROSOFT CORPORATION, L=REDMOND, S=WASHINGTON, C=US" ProductName="MICROSOFT TEAMS" BinaryName="UPDATE.EXE">
+          <BinaryVersionRange LowSection="*" HighSection="*" />
+        </FilePublisherCondition>
+      </Conditions>
+    </FilePublisherRule>
+    <FilePublisherRule Id="5dbc06b4-170d-4932-ad2e-bf8810661132" Name="UPDATE.EXE, in MICROSOFT TEAMS UPDATE, from O=MICROSOFT CORPORATION, L=REDMOND, S=WASHINGTON, C=US" Description="" UserOrGroupSid="S-1-1-0" Action="Allow">
+      <Conditions>
+        <FilePublisherCondition PublisherName="O=MICROSOFT CORPORATION, L=REDMOND, S=WASHINGTON, C=US" ProductName="MICROSOFT TEAMS UPDATE" BinaryName="UPDATE.EXE">
+          <BinaryVersionRange LowSection="*" HighSection="*" />
+        </FilePublisherCondition>
+      </Conditions>
+    </FilePublisherRule>
+    <FilePublisherRule Id="ee32f261-7249-46e5-b91d-cbccd0c3bcca" Name="Allow OneDrive by Publisher" Description="" UserOrGroupSid="S-1-1-0" Action="Allow">
+      <Conditions>
+        <FilePublisherCondition PublisherName="O=MICROSOFT CORPORATION, L=REDMOND, S=WASHINGTON, C=US" ProductName="MICROSOFT ONEDRIVE" BinaryName="*">
+          <BinaryVersionRange LowSection="*" HighSection="*" />
+        </FilePublisherCondition>
+      </Conditions>
+    </FilePublisherRule>
+    <FilePublisherRule Id="f95b800f-5405-49b8-a4c0-81c65e2ba3ae" Name="Autodesk Licence - Signed by O=AUTODESK, INC., L=SAN RAFAEL, S=CALIFORNIA, C=US" Description="" UserOrGroupSid="S-1-1-0" Action="Allow">
+      <Conditions>
+        <FilePublisherCondition PublisherName="O=AUTODESK, INC., L=SAN RAFAEL, S=CALIFORNIA, C=US" ProductName="*" BinaryName="*">
+          <BinaryVersionRange LowSection="*" HighSection="*" />
+        </FilePublisherCondition>
+      </Conditions>
+    </FilePublisherRule>
+   <FilePathRule Id="1eecf42a-04f1-4a84-995e-c9ad62db8f97" Name="(Default Rule) All files located in the Windows folder w/exceptions" Description="Allows members of the Everyone group to run applications that are located in the Windows folder." UserOrGroupSid="S-1-1-0" Action="Allow">
+      <Conditions>
+        <FilePathCondition Path="%WINDIR%\*" />
+      </Conditions>
+      <Exceptions>
+        <FilePathCondition Path="C:\Windows\System32\dllcache\*" />
+        <FilePathCondition Path="C:\Windows\System32\repair\*" />
+        <FilePathCondition Path="C:\Windows\System32\ServerManager.exe" />
+        <FilePathCondition Path="C:\Windows\Temp\*" />
+        <FilePathCondition Path="C;\Windows\System32\runas.exe" />
+      </Exceptions>
+    </FilePathRule>
+    <FilePathRule Id="80f7cbde-3dcd-40f5-a86a-0b68edf44d47" Name="Exempt from AppLocker" Description="Required for Domain Admins to run executables unelevated" UserOrGroupSid="S-1-5-21-3223329147-2675739271-2445898607-512" Action="Allow">
+      <Conditions>
+        <FilePathCondition Path="*" />
+      </Conditions>
+    </FilePathRule>
+    <FilePathRule Id="fd686d83-a829-4351-8ff4-27c7de5755d2" Name="(Default Rule) All files" Description="Allows members of the local Administrators group to run all applications." UserOrGroupSid="S-1-5-32-544" Action="Allow">
+      <Conditions>
+        <FilePathCondition Path="*" />
+      </Conditions>
+    </FilePathRule>
+    <FilePathRule Id="fdf51e6a-5509-44ea-bed1-f74d783e6123" Name="All files located in the Program Files folder" Description="Allows members of the Everyone group to run applications that are located in the Program Files folder." UserOrGroupSid="S-1-1-0" Action="Allow">
+      <Conditions>
+        <FilePathCondition Path="%PROGRAMFILES%\*" />
+      </Conditions>
+    </FilePathRule>
+  </RuleCollection>
