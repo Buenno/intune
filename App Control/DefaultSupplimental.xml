@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<SiPolicy xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" PolicyType="Supplemental Policy" xmlns="urn:schemas-microsoft-com:sipolicy">
+  <VersionEx>10.0.0.1</VersionEx>
+  <PlatformID>{2E07F7E4-194C-4D20-B7C9-6F44A6C5A234}</PlatformID>
+  <PolicyID>{349B5E68-D656-4331-B482-C502EC8961D3}</PolicyID>
+  <BasePolicyID>{E8BDDE50-E3D4-425A-859F-EC4EB2D8533D}</BasePolicyID>
+  <Rules>
+    <Rule>
+      <Option>Enabled:Unsigned System Integrity Policy</Option>
+    </Rule>
+    <Rule>
+      <Option>Enabled:Inherit Default Policy</Option>
+    </Rule>
+    <Rule>
+      <Option>Enabled:Managed Installer</Option>
+    </Rule>
+    <Rule>
+      <Option>Enabled:UMCI</Option>
+    </Rule>
+  </Rules>
+  <EKUs />
+  <FileRules>
+    <FileAttrib ID="ID_FILEATTRIB_F_0" FriendlyName="Allow files based on file attributes: 3.12.6150.1013 and py.exe and Python" FileName="*" ProductName="Python" MinimumFileVersion="3.12.6150.1013" />
+    <Allow ID="ID_ALLOW_PATH_0" FriendlyName="Allow by path: %WINDIR%\*" FilePath="%WINDIR%\*" />
+    <Allow ID="ID_ALLOW_PATH_1" FriendlyName="Allow by path: %OSDRIVE%\Program Files\*" FilePath="%OSDRIVE%\Program Files\*" />
+    <Allow ID="ID_ALLOW_PATH_2" FriendlyName="Allow by path: %OSDRIVE%\Program Files (x86)\*" FilePath="%OSDRIVE%\Program Files (x86)\*" />
+  </FileRules>
+  <Signers>
+    <Signer Name="DigiCert Trusted G4 Code Signing RSA4096 SHA384 2021 CA1" ID="ID_SIGNER_S_0">
+      <CertRoot Type="TBS" Value="65B1D4076A89AE273F57E6EEEDECB3EAE129B4168F76FA7671914CDF461D542255C59D9B85B916AE0CA6FC0FCF7A8E64" />
+      <CertPublisher Value="Python Software Foundation" />
+      <FileAttribRef RuleID="ID_FILEATTRIB_F_0" />
+    </Signer>
+  </Signers>
+  <SigningScenarios>
+    <SigningScenario ID="ID_SIGNINGSCENARIO_DRIVERS_1" FriendlyName="Auto generated policy on 09-24-2021" Value="131">
+      <ProductSigners />
+    </SigningScenario>
+    <SigningScenario ID="ID_SIGNINGSCENARIO_WINDOWS" FriendlyName="Auto generated policy on 09-24-2021" Value="12">
+      <ProductSigners>
+        <AllowedSigners>
+          <AllowedSigner SignerId="ID_SIGNER_S_0" />
+        </AllowedSigners>
+        <FileRulesRef>
+          <FileRuleRef RuleID="ID_ALLOW_PATH_0" />
+          <FileRuleRef RuleID="ID_ALLOW_PATH_1" />
+          <FileRuleRef RuleID="ID_ALLOW_PATH_2" />
+        </FileRulesRef>
+      </ProductSigners>
+    </SigningScenario>
+  </SigningScenarios>
+  <UpdatePolicySigners />
+  <CiSigners>
+    <CiSigner SignerId="ID_SIGNER_S_0" />
+  </CiSigners>
+  <HvciOptions>0</HvciOptions>
+  <Settings>
+    <Setting Provider="PolicyInfo" Key="Information" ValueName="Name">
+      <Value>
+        <String>DefaultSupplimental</String>
+      </Value>
+    </Setting>
+    <Setting Provider="PolicyInfo" Key="Information" ValueName="Id">
+      <Value>
+        <String>2025-02-11</String>
+      </Value>
+    </Setting>
+  </Settings>
+</SiPolicy>
