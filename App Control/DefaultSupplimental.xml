@@ -3,7 +3,7 @@
   <VersionEx>10.0.0.1</VersionEx>
   <PlatformID>{2E07F7E4-194C-4D20-B7C9-6F44A6C5A234}</PlatformID>
   <PolicyID>{349B5E68-D656-4331-B482-C502EC8961D3}</PolicyID>
-  <BasePolicyID>{E8BDDE50-E3D4-425A-859F-EC4EB2D8533D}</BasePolicyID>
+  <BasePolicyID>{6B5A42D0-D8EF-4B20-B34B-168AE3041ADF}</BasePolicyID>
   <Rules>
     <Rule>
       <Option>Enabled:Unsigned System Integrity Policy</Option>
