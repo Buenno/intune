@@ -2,8 +2,8 @@
 
 # Entra app registration details
 # Requires Device.Read.All and Group.Read.All permissions (application, not delegated!)
-$tenantId = "61942483-5ad8-4b01-ab0e-5df8f08da518"
-$clientId = "7828adbf-a6b5-4ab2-8763-842f67096521"
+$tenantId = ""
+$clientId = ""
 $certificate = Get-ChildItem -Path Cert:\CurrentUser\MY | Where-Object {$_.friendlyname -eq "EntraSync"}
 
 # Name of the default group of all AD computer objects generated from sync`
@@ -126,10 +126,10 @@ foreach ($device in Get-MgDevice -Filter "trustType eq 'AzureAD'" -All) {
     try {
         if (($adDevice = Get-ADComputer -Filter "Name -eq `"$($guid)`"" -SearchBase $deviceOrgUnit)) {
             #Write-Host "Updating AD object for $($guid)..."
-            $adDevice | Set-ADComputer -Replace @{"dNSHostName"="$($guid)";"servicePrincipalName"="host/$($guid)";"sAMAccountName"="$($sAMAccountName)";"description"="$($device.DisplayName)"}
+            $adDevice | Set-ADComputer -Replace @{"dNSHostName"="$($guid)";"servicePrincipalName"="host/$($guid)";"UserPrincipalName"="host/$($guid)";"sAMAccountName"="$($sAMAccountName)";"description"="$($device.DisplayName)"}
         } else {
             #Write-Host "Creating new AD object for $($guid)..."
-            $adDevice = New-ADComputer -Name $guid -DNSHostName $guid -ServicePrincipalNames "host/$($guid)" -SAMAccountName $sAMAccountName -Description "$($device.DisplayName)" -Path $deviceOrgUnit -AccountPassword $NULL -PasswordNotRequired $False -PassThru
+            $adDevice = New-ADComputer -Name $guid -DNSHostName $guid -ServicePrincipalNames "host/$($guid)" -UserPrincipalName "host/$($guid)" -SAMAccountName $sAMAccountName -Description "$($device.DisplayName)" -Path $deviceOrgUnit -AccountPassword $NULL -PasswordNotRequired $False -PassThru
         }
         Write-Host "Getting AD object for $($guid)..."
         $adDevice = Get-ADComputer -Filter "Name -eq `"$($guid)`"" -SearchBase $deviceOrgUnit
